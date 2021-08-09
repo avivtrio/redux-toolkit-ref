@@ -1,0 +1,13 @@
+.collapse {
+  position: relative;
+  top: 50%;
+  left: 100%;
+  cursor: pointer;
+}
+
+.close {
+  width: 0;
+}
+
+.open {
+}
