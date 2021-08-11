@@ -1,0 +1,2021 @@
+{
+  "swagger": "2.0",
+  "info": { "version": "v2", "title": "Smartheart Rest API" },
+  "host": "test.smartheartservice.com",
+  "basePath": "/api/v2.0",
+  "schemes": ["https"],
+  "paths": {
+    "/profiles": {
+      "get": {
+        "tags": ["Profiles"],
+        "summary": "Get the authenticated user's profiles list",
+        "operationId": "Profiles_GetProfiles",
+        "consumes": [],
+        "produces": ["application/json", "text/json", "text/html"],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[List[Profile]]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      }
+    },
+    "/users/{userId}/profiles": {
+      "get": {
+        "tags": ["Profiles"],
+        "summary": "Returns the profile list of the given user. Available for Api users only.",
+        "operationId": "Profiles_GetCustomerProfiles",
+        "consumes": [],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The unique identifier of the user whose profiles list to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[List[Profile]]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      },
+      "post": {
+        "tags": ["Profiles"],
+        "summary": "Adds the given list of profiles to the",
+        "operationId": "Profiles_CreateProfiles",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "text/html",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The unique identifier of the user to add the profiles to",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "profiles",
+            "in": "body",
+            "description": "The list of profiles to add",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Profile" }
+            }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ShApiResponse[CreateProfilesResponse]"
+            }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      }
+    },
+    "/profiles/{profileGuid}": {
+      "put": {
+        "tags": ["Profiles"],
+        "summary": "Update the given profile",
+        "operationId": "Profiles_UpdateProfile",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "text/html",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "profileGuid",
+            "in": "path",
+            "description": "The unique identifier of the profile",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "prof",
+            "in": "body",
+            "description": "The profile data to update",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Profile" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[Profile]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      },
+      "delete": {
+        "tags": ["Profiles"],
+        "summary": "Deletes the given profile from the profiles list",
+        "operationId": "Profiles_DeleteProfile",
+        "consumes": [],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "profileGuid",
+            "in": "path",
+            "description": "The unique identifier of the profile to delete",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[Boolean]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      }
+    },
+    "/profiles/{profileGuid}/ecgs": {
+      "get": {
+        "tags": ["Profiles"],
+        "summary": "Return the list of ECGs of the given profile",
+        "operationId": "Profiles_GetProfileEcgs",
+        "consumes": [],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "profileGuid",
+            "in": "path",
+            "description": "The unique identifier of the profile whose ECGs to return",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ShApiResponse[List[ProfileEcg]]"
+            }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      },
+      "post": {
+        "tags": ["Profiles"],
+        "summary": "Transmits an ECG for the given profile id",
+        "operationId": "Profiles_TransmitProfileEcg",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "text/html",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "profileGuid",
+            "in": "path",
+            "description": "The unique identifier of profile",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ecgXml",
+            "in": "body",
+            "description": "The ECG data in xml format",
+            "required": true,
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[String]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      }
+    },
+    "/profiles/{profileGuid}/ecgs/{ecgId}/pdf": {
+      "get": {
+        "tags": ["Profiles"],
+        "summary": "Returns the pdf report of the given profile's given ECG",
+        "operationId": "Profiles_GetProfileEcgPdf",
+        "consumes": [],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "profileGuid",
+            "in": "path",
+            "description": "The unique identifier of profile",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ecgId",
+            "in": "path",
+            "description": "The unique identifier of the ECG",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[Byte[]]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": {
+            "description": "Authentication failed or the ECG doesn't belong to the given profile"
+          }
+        }
+      }
+    },
+    "/profiles/{profileGuid}/ecgs/{ecgId}/xml": {
+      "get": {
+        "tags": ["Profiles"],
+        "summary": "Returns the xml report of the given profile's given ECG",
+        "operationId": "Profiles_GetProfileEcgXml",
+        "consumes": [],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "profileGuid",
+            "in": "path",
+            "description": "The unique identifier of profile",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ecgId",
+            "in": "path",
+            "description": "The unique identifier of the ECG",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[Byte[]]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": {
+            "description": "Authentication failed or the ECG doesn't belong to the given profile"
+          }
+        }
+      }
+    },
+    "/profiles/{profileGuid}/ecgs/{ecgId}/metadata": {
+      "get": {
+        "tags": ["Profiles"],
+        "summary": "Returns the metadata of the the given profile's given ECG",
+        "operationId": "Profiles_GetEcgMetaData",
+        "consumes": [],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "profileGuid",
+            "in": "path",
+            "description": "The unique identifier of profile",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ecgId",
+            "in": "path",
+            "description": "The unique identifier of the ECG",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[EcgMetaData]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": {
+            "description": "Authentication failed or the ECG doesn't belong to the given profile"
+          }
+        }
+      }
+    },
+    "/profiles/{profileGuid}/ecgs/{ecgId}/send": {
+      "post": {
+        "tags": ["Profiles"],
+        "summary": "Send the given profile's ecg to the given email recipients",
+        "operationId": "Profiles_SendProfileEcg",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "text/html",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "profileGuid",
+            "in": "path",
+            "description": "The unique identifier of profile",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ecgId",
+            "in": "path",
+            "description": "The unique identifier of the ECG",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "req",
+            "in": "body",
+            "description": "The email recipient to send the ECG to",
+            "required": true,
+            "schema": { "$ref": "#/definitions/SendEcgRequest" }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "description": "The language of the email, in .Net Culture Code format (e.g. \"en-US\")",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[Boolean]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": {
+            "description": "Authentication failed or the ECG doesn't belong to the given profile"
+          }
+        }
+      }
+    },
+    "/profiles/{profileGuid}/ecgs/{ecgId}": {
+      "get": {
+        "tags": ["Profiles"],
+        "summary": "Gets the data of a given ecg",
+        "operationId": "Profiles_GetEcgData",
+        "consumes": [],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "profileGuid",
+            "in": "path",
+            "description": "The unique identifier of the profile the ECG was done for",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ecgId",
+            "in": "path",
+            "description": "The unique identifier of the ECG",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "compareTo",
+            "in": "query",
+            "description": "The unique id of the ECG to compare to",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "description": "The culture code (e.g. \"en-US\") of the returned texts",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[EcgData]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": {
+            "description": "Authentication failed or ecg doens't belong to the profile"
+          }
+        }
+      }
+    },
+    "/profiles/{profileGuid}/ecgs/{ecgId}/interpretation": {
+      "post": {
+        "tags": ["Profiles"],
+        "summary": "Add an interpretation text to the given ecg",
+        "operationId": "Profiles_AddPortalInterpretation",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "text/html",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "profileGuid",
+            "in": "path",
+            "description": "The unique identifier of the profile that the ECG was done for",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ecgId",
+            "in": "path",
+            "description": "The unique id of the ECG to add the interpretation to",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "interpretation",
+            "in": "body",
+            "description": "The interpretation data",
+            "required": true,
+            "schema": { "$ref": "#/definitions/EcgPortalInterpretation" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[Boolean]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": {
+            "description": "Authentication failed or the ECG doesn't belong to the given profile"
+          }
+        }
+      }
+    },
+    "/profiles/{profileGuid}/ecgs/{ecgId}/comment": {
+      "post": {
+        "tags": ["Profiles"],
+        "summary": "Add a comment to the given ecg",
+        "operationId": "Profiles_AddPortalComment",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "text/html",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "profileGuid",
+            "in": "path",
+            "description": "The unique identifier of the profile that the ECG was done for",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ecgId",
+            "in": "path",
+            "description": "The unique id of the ECG to add the interpretation to",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "comment",
+            "in": "body",
+            "description": "The comment data",
+            "required": true,
+            "schema": { "$ref": "#/definitions/EcgComment" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[Boolean]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": {
+            "description": "Authentication failed or the ECG doesn't belong to the given profile"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Authenticates a user",
+        "operationId": "Users_Login",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "text/html",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "credentials",
+            "in": "body",
+            "description": "The username (email) and password of the user to authenticate",
+            "required": true,
+            "schema": { "$ref": "#/definitions/LoginData" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ShApiResponse[FullSmartheartUser]"
+            }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Gets the list of users in the logged api user organization. \r\nRequires Api User role authorization.",
+        "operationId": "Users_GetUsers",
+        "consumes": [],
+        "produces": ["application/json", "text/json", "text/html"],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ShApiResponse[IEnumerable[SmartheartUser]]"
+            }
+          },
+          "401": { "description": "Authentication failed" }
+        }
+      },
+      "post": {
+        "tags": ["Users"],
+        "summary": "Creates a new user",
+        "operationId": "Users_CreateUser",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "text/html",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "The user object to add",
+            "required": true,
+            "schema": { "$ref": "#/definitions/FullSmartheartUser" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ShApiResponse[FullSmartheartUser]"
+            }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      }
+    },
+    "/users/organization": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Creates a new user for an organization. The created user needs to be validated and/or activated",
+        "operationId": "Users_CreateOrganizationUser",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "text/html",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "The user object to add",
+            "required": true,
+            "schema": { "$ref": "#/definitions/BasicSmartheartUser" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ShApiResponse[BasicSmartheartUser]"
+            }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      }
+    },
+    "/users/activate": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Activates a given user based on a valid activation token and sets the given password to the activated user.",
+        "operationId": "Users_ActivateUser",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "text/html",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "activationData",
+            "in": "body",
+            "description": "",
+            "required": true,
+            "schema": { "$ref": "#/definitions/UserActivationData" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[Boolean]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      }
+    },
+    "/users/{userId}/status": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "Enables a user",
+        "operationId": "Users_EnableUser",
+        "consumes": [],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The unique identifier of the user to enable",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[Boolean]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Disables the given user",
+        "operationId": "Users_DisableUser",
+        "consumes": [],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The unique identifier of the user",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[Boolean]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      }
+    },
+    "/users/{userId}": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "Updates the given user",
+        "operationId": "Users_UpdateUser",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "text/html",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The unique identifier of the user to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "description": "The user data to update",
+            "required": true,
+            "schema": { "$ref": "#/definitions/FullSmartheartUser" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ShApiResponse[FullSmartheartUser]"
+            }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      }
+    },
+    "/users/{userId}/permissions": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Gets the list of Smartheart accounts the user has permissions to view in the Smartheart Portal.",
+        "operationId": "Users_GetPortalPermissions",
+        "consumes": [],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The unique identifier of the user whose permissions should be returned",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The results \"page\" number to return",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "The number of result in each \"page\"",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "How to sort the returned permissions list (\"name\" - by the account name; \"last-ecg\" - by last ecg date/time",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ShApiResponse[List[PortalPermission]]"
+            }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      }
+    },
+    "/users/{userId}/ecgs": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Gets the list of ECGs to be viewed in the portal in a given date range of the permissions of the authenticated user.",
+        "operationId": "Users_GetPortalEcgList",
+        "consumes": [],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The unique identifier of the user whose portal ecg list should be returned",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "description": "The results \"page\" number to return",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "description": "The number of result in each \"page\"",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "fromDate",
+            "in": "query",
+            "description": "The date from which to return the ECGs (yyyy-MM-dd)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "toDate",
+            "in": "query",
+            "description": "The date until which to return the ECGs (yyyy-MM-dd)",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "How to sort the returned ecgs list (\"name\" - by the account name, ascending; \"last-ecg\" - by the ecg date/time, descending",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[List[Ecg]]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      }
+    },
+    "/users/{userId}/recipients": {
+      "put": {
+        "tags": ["Users"],
+        "summary": "Adds an additional email recipient for new ECG notifications",
+        "operationId": "Users_AddRecipients",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "text/html",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The unique identifier of the user to add an additional recipient to",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "recipient",
+            "in": "body",
+            "description": "The recipient email address",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Recipient" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[Boolean]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      },
+      "delete": {
+        "tags": ["Users"],
+        "summary": "Removes an email recipient for new ECG notifications",
+        "operationId": "Users_DeleteRecipient",
+        "consumes": [
+          "application/json",
+          "text/json",
+          "text/html",
+          "application/xml",
+          "text/xml",
+          "application/x-www-form-urlencoded"
+        ],
+        "produces": ["application/json", "text/json", "text/html"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "description": "The unique identifier of the user to remove the recipient from",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "recipient",
+            "in": "body",
+            "description": "The recipient email address to remove",
+            "required": true,
+            "schema": { "$ref": "#/definitions/Recipient" }
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "access token",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": { "$ref": "#/definitions/ShApiResponse[Boolean]" }
+          },
+          "400": { "description": "Invalid request format" },
+          "401": { "description": "Authentication failed" }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ShApiResponse[List[Profile]]": {
+      "type": "object",
+      "properties": {
+        "error": { "$ref": "#/definitions/ApiError" },
+        "response": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Profile" }
+        }
+      }
+    },
+    "ApiError": {
+      "type": "object",
+      "properties": {
+        "errorCode": {
+          "format": "int32",
+          "enum": [400, 401, 500],
+          "type": "integer"
+        },
+        "errorMessage": { "type": "string" }
+      }
+    },
+    "Profile": {
+      "type": "object",
+      "properties": {
+        "profileId": {
+          "description": "The profile's unique identifier",
+          "type": "string"
+        },
+        "firstName": {
+          "description": "The profiles first name",
+          "type": "string"
+        },
+        "lastName": {
+          "description": "The profile's last name",
+          "type": "string"
+        },
+        "gender": {
+          "description": "The profile's gender (Male/Female)",
+          "type": "string"
+        },
+        "beltSize": {
+          "description": "The profile's belt size (S/M/L/XL)",
+          "type": "string"
+        },
+        "reference": {
+          "description": "The profile's free-text reference",
+          "type": "string"
+        },
+        "pacemaker": {
+          "description": "Indicates whether the profile has pacemaker installed",
+          "type": "boolean"
+        },
+        "birthDate": {
+          "description": "The birth date of the profile",
+          "type": "string"
+        }
+      }
+    },
+    "ShApiResponse[CreateProfilesResponse]": {
+      "type": "object",
+      "properties": {
+        "error": { "$ref": "#/definitions/ApiError" },
+        "response": { "$ref": "#/definitions/CreateProfilesResponse" }
+      }
+    },
+    "CreateProfilesResponse": {
+      "type": "object",
+      "properties": {
+        "profileIDs": {
+          "description": "List of created profile ids",
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "invalid": {
+          "description": "List of profiles that were NOT created",
+          "type": "array",
+          "items": { "$ref": "#/definitions/Profile" }
+        }
+      }
+    },
+    "ShApiResponse[Profile]": {
+      "type": "object",
+      "properties": {
+        "error": { "$ref": "#/definitions/ApiError" },
+        "response": { "$ref": "#/definitions/Profile" }
+      }
+    },
+    "ShApiResponse[Boolean]": {
+      "type": "object",
+      "properties": {
+        "error": { "$ref": "#/definitions/ApiError" },
+        "response": { "type": "boolean" }
+      }
+    },
+    "ShApiResponse[List[ProfileEcg]]": {
+      "type": "object",
+      "properties": {
+        "error": { "$ref": "#/definitions/ApiError" },
+        "response": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/ProfileEcg" }
+        }
+      }
+    },
+    "ProfileEcg": {
+      "type": "object",
+      "properties": {
+        "ecgId": {
+          "description": "The unique identifier of the ECG",
+          "type": "string"
+        },
+        "ecgDateTime": {
+          "description": "The ECG date and time",
+          "type": "string"
+        }
+      }
+    },
+    "ShApiResponse[String]": {
+      "type": "object",
+      "properties": {
+        "error": { "$ref": "#/definitions/ApiError" },
+        "response": { "type": "string" }
+      }
+    },
+    "ShApiResponse[Byte[]]": {
+      "type": "object",
+      "properties": {
+        "error": { "$ref": "#/definitions/ApiError" },
+        "response": { "format": "byte", "type": "string" }
+      }
+    },
+    "ShApiResponse[EcgMetaData]": {
+      "type": "object",
+      "properties": {
+        "error": { "$ref": "#/definitions/ApiError" },
+        "response": { "$ref": "#/definitions/EcgMetaData" }
+      }
+    },
+    "EcgMetaData": {
+      "type": "object",
+      "properties": {
+        "ecgId": {
+          "description": "The unique identifier of an ECG",
+          "type": "string"
+        },
+        "ecgDateTime": {
+          "description": "The date/time of the ECG",
+          "type": "string"
+        },
+        "requestContext": {
+          "description": "The request context of the ECG",
+          "type": "string"
+        },
+        "findings": {
+          "description": "The list of custom findings of the ECG",
+          "type": "array",
+          "items": { "$ref": "#/definitions/Finding" }
+        },
+        "isConfirmedMeasurements": {
+          "description": "Indicates whether the ECG measurements are confiremed or not",
+          "type": "boolean"
+        },
+        "measurements": {
+          "$ref": "#/definitions/Measurements",
+          "description": "The measurements of the ECG"
+        }
+      }
+    },
+    "Finding": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "value": { "type": "string" }
+      }
+    },
+    "Measurements": {
+      "type": "object",
+      "properties": {
+        "rate": {
+          "description": "The rate (pulse) ECG measurement",
+          "type": "string"
+        },
+        "pr": { "description": "The PR ECG measurement", "type": "string" },
+        "qrs": { "description": "The Qrs ECG measurement", "type": "string" },
+        "qt": { "description": "The QT ECG measurement", "type": "string" },
+        "qtcb": { "description": "The QTcB ECG measurement", "type": "string" },
+        "qtcf": { "description": "The QTcF ECG measurement", "type": "string" }
+      }
+    },
+    "SendEcgRequest": {
+      "type": "object",
+      "properties": {
+        "email": {
+          "description": "The email recipient to send the ECG to",
+          "type": "string"
+        }
+      }
+    },
+    "ShApiResponse[EcgData]": {
+      "type": "object",
+      "properties": {
+        "error": { "$ref": "#/definitions/ApiError" },
+        "response": { "$ref": "#/definitions/EcgData" }
+      }
+    },
+    "EcgData": {
+      "type": "object",
+      "properties": {
+        "recommendations": {
+          "description": "The ECG Feedback text. Relevant for non-professional users and in case the ECG is \r\ncompletely not readable.",
+          "type": "string"
+        },
+        "severity": {
+          "format": "int32",
+          "description": "The severity of the ECG Recommendation (Feedback). Relevant for non-professional users \r\nand in case the ECG is completely not readable.\r\nPossible values are: \r\n\t(-1) - The ECG is not readable; \r\n\t1 - \"green\" severity;\r\n\t2 - \"yellow\" severity;\r\n\t3 - \"organe\" severity;\r\n\t4 - \"red\" severity",
+          "type": "integer"
+        },
+        "status": {
+          "format": "int32",
+          "description": "The current status of the ECG transmission. \r\nPossible values are:\r\n\t0 - The ECG is not readable;\r\n\t1 - The ECG is only partly ready. Relevant when the user has interpretation service and it was not given yet, but\r\n\t\tthe ECG graph is already available.\r\n\t2 - The ECG is ready.",
+          "type": "integer"
+        },
+        "remarks": {
+          "description": "The remarks the user has entered during the ECG transmission process.",
+          "type": "string"
+        },
+        "technicalInstructions": {
+          "description": "Technical instructions to improve the ECG quality. Given automatically based on the ECG quality and MC input.",
+          "type": "string"
+        },
+        "electrodesStatus": {
+          "$ref": "#/definitions/ElectrodesStatus",
+          "description": "The status of the Smartheart electrodes during the ECG transmission"
+        },
+        "measurements": {
+          "$ref": "#/definitions/EcgMeasurements",
+          "description": "The ECG measurements values. May be confirmed (done and saved by the MC, when there's a service) or unconfirmed (automatic, done\r\nusing an algorithm)."
+        },
+        "findings": {
+          "description": "The list of ECG findings, with their respective categories. Relevant for professional users with service only.",
+          "type": "array",
+          "items": { "$ref": "#/definitions/EcgFinding" }
+        },
+        "symptoms": {
+          "description": "The symptos the user has selected during the ECG transmissionn process.",
+          "type": "array",
+          "items": { "$ref": "#/definitions/Symptom" }
+        },
+        "leads": {
+          "$ref": "#/definitions/EcgLeads",
+          "description": "The 12 leads graph png images encoded to a base64 string."
+        },
+        "comments": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/EcgComment" }
+        },
+        "interpretation": { "$ref": "#/definitions/EcgInterpretation" }
+      }
+    },
+    "ElectrodesStatus": {
+      "type": "object",
+      "properties": {
+        "ll": { "type": "boolean" },
+        "la": { "type": "boolean" },
+        "ra": { "type": "boolean" },
+        "v1": { "type": "boolean" },
+        "v2": { "type": "boolean" },
+        "v3": { "type": "boolean" },
+        "v4": { "type": "boolean" },
+        "v5": { "type": "boolean" },
+        "v6": { "type": "boolean" }
+      }
+    },
+    "EcgMeasurements": {
+      "type": "object",
+      "properties": {
+        "isUnconfirmed": {
+          "description": "Indicates whether the measurements are unconfirmed (automatic) or not",
+          "type": "boolean"
+        },
+        "isMs": {
+          "description": "Indicates whether the measurements values units are in ms (or seconds). \r\nNote: The Rate (pulse) measurement is always in bpm",
+          "type": "boolean"
+        },
+        "rate": {
+          "description": "The rate (pulse) ECG measurement",
+          "type": "string"
+        },
+        "pr": { "description": "The PR ECG measurement", "type": "string" },
+        "qrs": { "description": "The Qrs ECG measurement", "type": "string" },
+        "qt": { "description": "The QT ECG measurement", "type": "string" },
+        "qtcb": { "description": "The QTcB ECG measurement", "type": "string" },
+        "qtcf": { "description": "The QTcF ECG measurement", "type": "string" }
+      }
+    },
+    "EcgFinding": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "description": "The Category of the finding",
+          "type": "string"
+        },
+        "finding": {
+          "description": "The name of the finding",
+          "type": "string"
+        }
+      }
+    },
+    "Symptom": {
+      "type": "object",
+      "properties": {
+        "symptomsId": {
+          "description": "The unique id of the symptom",
+          "type": "string"
+        },
+        "symptomName": {
+          "description": "The descriptive name of the symptom",
+          "type": "string"
+        }
+      }
+    },
+    "EcgLeads": {
+      "type": "object",
+      "properties": {
+        "rhythm": { "type": "string" },
+        "l1": { "type": "string" },
+        "l2": { "type": "string" },
+        "l3": { "type": "string" },
+        "avr": { "type": "string" },
+        "avl": { "type": "string" },
+        "avf": { "type": "string" },
+        "v1": { "type": "string" },
+        "v2": { "type": "string" },
+        "v3": { "type": "string" },
+        "v4": { "type": "string" },
+        "v5": { "type": "string" },
+        "v6": { "type": "string" }
+      }
+    },
+    "EcgComment": {
+      "type": "object",
+      "properties": {
+        "text": { "description": "The text of the comment", "type": "string" },
+        "commentDate": {
+          "format": "date-time",
+          "description": "The comment date and time",
+          "type": "string"
+        },
+        "commenter": {
+          "description": "The name of the commenter",
+          "type": "string"
+        }
+      }
+    },
+    "EcgInterpretation": {
+      "type": "object",
+      "properties": {
+        "interpreter": {
+          "description": "The name of the interpreter who wrote the interpretation",
+          "type": "string"
+        },
+        "text": { "description": "The interpretation text", "type": "string" },
+        "interpretationDate": {
+          "format": "date-time",
+          "description": "The interpretation (local) date/time",
+          "type": "string"
+        },
+        "notifyUser": {
+          "description": "Indicates whether to send an email notification about the interpretation to the user or not",
+          "type": "boolean"
+        }
+      }
+    },
+    "EcgPortalInterpretation": {
+      "type": "object",
+      "properties": {
+        "text": { "description": "The interpretation text", "type": "string" },
+        "interpretationDate": {
+          "format": "date-time",
+          "description": "The interpretation (local) date/time",
+          "type": "string"
+        },
+        "notifyUser": {
+          "description": "Indicates whether to send an email notification about the interpretation to the user or not",
+          "type": "boolean"
+        }
+      }
+    },
+    "LoginData": {
+      "type": "object",
+      "properties": {
+        "email": { "type": "string" },
+        "password": { "type": "string" }
+      }
+    },
+    "ShApiResponse[FullSmartheartUser]": {
+      "type": "object",
+      "properties": {
+        "error": { "$ref": "#/definitions/ApiError" },
+        "response": { "$ref": "#/definitions/FullSmartheartUser" }
+      }
+    },
+    "FullSmartheartUser": {
+      "type": "object",
+      "properties": {
+        "smartheartRejectionPeriod": {
+          "format": "int32",
+          "description": "The period to wait when a Smartheart device is rejected by the user until it will try to connect again",
+          "type": "integer"
+        },
+        "allowSkipGuidanceScreen": {
+          "description": "Indicates whether the user can choose to skip the guidance screen",
+          "type": "boolean"
+        },
+        "passwordExpired": {
+          "description": "Indicates whether the user password has expired",
+          "type": "boolean"
+        },
+        "smartheartChannelsTimes": {
+          "description": "The ECG transmission channel times that should be passed to the Smartheart device",
+          "type": "array",
+          "items": { "format": "int32", "type": "integer" }
+        },
+        "smartheartSamplingRate": {
+          "format": "int32",
+          "description": "The ECG sampling rate that should be passed to the Smartheart device",
+          "type": "integer"
+        },
+        "smartheartPreviewChannelsTimes": {
+          "description": "The ECG Preview channel times that should be passed to the Smartheart device",
+          "type": "array",
+          "items": { "format": "int32", "type": "integer" }
+        },
+        "smartheartPreviewSamplingRate": {
+          "format": "int32",
+          "description": "The ECG Preview sampling rate that should be passed to the Smartheart device",
+          "type": "integer"
+        },
+        "smartheartBaselineTimeout": {
+          "format": "int32",
+          "description": "The baseline timeout value that should be passed to the Smarthear device",
+          "type": "integer"
+        },
+        "smartheartPreviewThreshold": {
+          "format": "int32",
+          "description": "The Preview threshold",
+          "type": "integer"
+        },
+        "skipSymptoms": {
+          "description": "Indicates whether the user should skip the symptoms screen",
+          "type": "boolean"
+        },
+        "backendUrl": { "type": "string" },
+        "unviewedEcgs": {
+          "format": "int32",
+          "description": "The total number of unviewed ECGs of the user",
+          "type": "integer"
+        },
+        "canAddProfiles": {
+          "description": "Indicates whether the user can add new profiles",
+          "type": "boolean"
+        },
+        "canDeleteProfiles": {
+          "description": "Indicates whether the user can delete existing profiles",
+          "type": "boolean"
+        },
+        "smartheartPreviewEnabled": {
+          "description": "Indicates whether the Smartheart Preview is enabled for the user",
+          "type": "boolean"
+        },
+        "isProfessionalUser": {
+          "description": "Indicates whether the user is a professional user or not",
+          "type": "boolean"
+        },
+        "maxProfiles": {
+          "format": "int32",
+          "description": "The maximum number of profiles the user can add. Infinite if null.",
+          "type": "integer"
+        },
+        "useQtcF": {
+          "description": "Indicates whether the QtcF values should be displayed. Else, the QtcB value should be displayed.",
+          "type": "boolean"
+        },
+        "showAutoMeasurements": {
+          "description": "Indicates whether to show the automatic measurements of an ECG to the user or not.",
+          "type": "boolean"
+        },
+        "canCreateUsers": {
+          "description": "Indicates whether the user can create users or not.",
+          "type": "boolean"
+        },
+        "organization": {
+          "$ref": "#/definitions/Organization",
+          "description": "The organization the user belongs to. Null if the user doesn't belong to an organization."
+        },
+        "isOrganizationAdmin": {
+          "description": "Indicates whether the user is an organization admin user.",
+          "type": "boolean"
+        },
+        "canCreateAdminUsers": {
+          "description": "Indicates whether the user can create admin users.",
+          "type": "boolean"
+        },
+        "canCreateProfessionalUsers": {
+          "description": "Indicates whether the user can create professional users",
+          "type": "boolean"
+        },
+        "id": {
+          "description": "The unique identifier of the user",
+          "type": "string"
+        },
+        "firstName": {
+          "description": "The first name of the user",
+          "type": "string"
+        },
+        "lastName": {
+          "description": "The last name of the user",
+          "type": "string"
+        },
+        "salutation": {
+          "description": "The salutation of the user",
+          "type": "string"
+        },
+        "userName": {
+          "description": "The user name (email) of the user",
+          "type": "string"
+        },
+        "password": {
+          "description": "The password of the user",
+          "type": "string"
+        },
+        "withService": {
+          "description": "Indicates whether the user has ECG interpretation service or not",
+          "type": "boolean"
+        },
+        "enabled": {
+          "description": "Indicates whether the user is enabled or not.\r\nWhen creating an organization user, if set to false the created user is disabled and the proper \r\nactivation process will be initialized.",
+          "type": "boolean"
+        }
+      }
+    },
+    "Organization": {
+      "description": "Reperesents and organization which groups together differet users",
+      "type": "object",
+      "properties": {
+        "organizationId": {
+          "format": "int32",
+          "description": "Thd unique identifier of the organization",
+          "type": "integer"
+        },
+        "organizationName": {
+          "description": "The display name of the organization",
+          "type": "string"
+        }
+      }
+    },
+    "ShApiResponse[IEnumerable[SmartheartUser]]": {
+      "type": "object",
+      "properties": {
+        "error": { "$ref": "#/definitions/ApiError" },
+        "response": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/SmartheartUser" }
+        }
+      }
+    },
+    "SmartheartUser": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "description": "The unique identifier of the user",
+          "type": "string"
+        },
+        "firstName": {
+          "description": "The first name of the user",
+          "type": "string"
+        },
+        "lastName": {
+          "description": "The last name of the user",
+          "type": "string"
+        },
+        "salutation": {
+          "description": "The salutation of the user",
+          "type": "string"
+        },
+        "userName": {
+          "description": "The user name (email) of the user",
+          "type": "string"
+        },
+        "password": {
+          "description": "The password of the user",
+          "type": "string"
+        },
+        "withService": {
+          "description": "Indicates whether the user has ECG interpretation service or not",
+          "type": "boolean"
+        },
+        "enabled": {
+          "description": "Indicates whether the user is enabled or not.\r\nWhen creating an organization user, if set to false the created user is disabled and the proper \r\nactivation process will be initialized.",
+          "type": "boolean"
+        }
+      }
+    },
+    "BasicSmartheartUser": {
+      "type": "object",
+      "properties": {
+        "canAddProfiles": {
+          "description": "Indicates whether the user can add new profiles",
+          "type": "boolean"
+        },
+        "canDeleteProfiles": {
+          "description": "Indicates whether the user can delete existing profiles",
+          "type": "boolean"
+        },
+        "smartheartPreviewEnabled": {
+          "description": "Indicates whether the Smartheart Preview is enabled for the user",
+          "type": "boolean"
+        },
+        "isProfessionalUser": {
+          "description": "Indicates whether the user is a professional user or not",
+          "type": "boolean"
+        },
+        "maxProfiles": {
+          "format": "int32",
+          "description": "The maximum number of profiles the user can add. Infinite if null.",
+          "type": "integer"
+        },
+        "useQtcF": {
+          "description": "Indicates whether the QtcF values should be displayed. Else, the QtcB value should be displayed.",
+          "type": "boolean"
+        },
+        "showAutoMeasurements": {
+          "description": "Indicates whether to show the automatic measurements of an ECG to the user or not.",
+          "type": "boolean"
+        },
+        "canCreateUsers": {
+          "description": "Indicates whether the user can create users or not.",
+          "type": "boolean"
+        },
+        "organization": {
+          "$ref": "#/definitions/Organization",
+          "description": "The organization the user belongs to. Null if the user doesn't belong to an organization."
+        },
+        "isOrganizationAdmin": {
+          "description": "Indicates whether the user is an organization admin user.",
+          "type": "boolean"
+        },
+        "canCreateAdminUsers": {
+          "description": "Indicates whether the user can create admin users.",
+          "type": "boolean"
+        },
+        "canCreateProfessionalUsers": {
+          "description": "Indicates whether the user can create professional users",
+          "type": "boolean"
+        },
+        "id": {
+          "description": "The unique identifier of the user",
+          "type": "string"
+        },
+        "firstName": {
+          "description": "The first name of the user",
+          "type": "string"
+        },
+        "lastName": {
+          "description": "The last name of the user",
+          "type": "string"
+        },
+        "salutation": {
+          "description": "The salutation of the user",
+          "type": "string"
+        },
+        "userName": {
+          "description": "The user name (email) of the user",
+          "type": "string"
+        },
+        "password": {
+          "description": "The password of the user",
+          "type": "string"
+        },
+        "withService": {
+          "description": "Indicates whether the user has ECG interpretation service or not",
+          "type": "boolean"
+        },
+        "enabled": {
+          "description": "Indicates whether the user is enabled or not.\r\nWhen creating an organization user, if set to false the created user is disabled and the proper \r\nactivation process will be initialized.",
+          "type": "boolean"
+        }
+      }
+    },
+    "ShApiResponse[BasicSmartheartUser]": {
+      "type": "object",
+      "properties": {
+        "error": { "$ref": "#/definitions/ApiError" },
+        "response": { "$ref": "#/definitions/BasicSmartheartUser" }
+      }
+    },
+    "UserActivationData": {
+      "type": "object",
+      "properties": {
+        "activationToken": {
+          "description": "The activation token of the user to be activated",
+          "type": "string"
+        },
+        "password": {
+          "description": "The password to be set for the activated user",
+          "type": "string"
+        }
+      }
+    },
+    "ShApiResponse[List[PortalPermission]]": {
+      "type": "object",
+      "properties": {
+        "error": { "$ref": "#/definitions/ApiError" },
+        "response": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/PortalPermission" }
+        }
+      }
+    },
+    "PortalPermission": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "description": "The unique user id of the user",
+          "type": "string"
+        },
+        "firstName": {
+          "description": "The first name of the user",
+          "type": "string"
+        },
+        "lastName": {
+          "description": "The last name of the user",
+          "type": "string"
+        },
+        "lastEcgDate": {
+          "format": "date-time",
+          "description": "The date and time of the last ECG the user has done",
+          "type": "string"
+        },
+        "unviewedInterpretations": {
+          "format": "int32",
+          "description": "The number of the user's unviewed interpretation in the portal",
+          "type": "integer"
+        },
+        "unviewedEcgsInPortal": {
+          "format": "int32",
+          "description": "The number of the user's unviewed ECGs in the portal",
+          "type": "integer"
+        },
+        "profiles": {
+          "description": "The list of profiles of the user",
+          "type": "array",
+          "items": { "$ref": "#/definitions/PortalProfile" }
+        }
+      }
+    },
+    "PortalProfile": {
+      "type": "object",
+      "properties": {
+        "unviewedInterpretations": {
+          "format": "int32",
+          "description": "Number of the profile's unviewed interpretation in the protal",
+          "type": "integer"
+        },
+        "unviewedEcgsInPortal": {
+          "format": "int32",
+          "description": "Number of the profile's unviewed ECGs in the protal",
+          "type": "integer"
+        },
+        "lastEcgDate": {
+          "format": "date-time",
+          "description": "The date/time of the last ECG of the profile",
+          "type": "string"
+        },
+        "profileId": {
+          "description": "The profile's unique identifier",
+          "type": "string"
+        },
+        "firstName": {
+          "description": "The profiles first name",
+          "type": "string"
+        },
+        "lastName": {
+          "description": "The profile's last name",
+          "type": "string"
+        },
+        "gender": {
+          "description": "The profile's gender (Male/Female)",
+          "type": "string"
+        },
+        "beltSize": {
+          "description": "The profile's belt size (S/M/L/XL)",
+          "type": "string"
+        },
+        "reference": {
+          "description": "The profile's free-text reference",
+          "type": "string"
+        },
+        "pacemaker": {
+          "description": "Indicates whether the profile has pacemaker installed",
+          "type": "boolean"
+        },
+        "birthDate": {
+          "description": "The birth date of the profile",
+          "type": "string"
+        }
+      }
+    },
+    "ShApiResponse[List[Ecg]]": {
+      "type": "object",
+      "properties": {
+        "error": { "$ref": "#/definitions/ApiError" },
+        "response": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Ecg" }
+        }
+      }
+    },
+    "Ecg": {
+      "type": "object",
+      "properties": {
+        "userId": {
+          "description": "The ECG user unique identifier",
+          "type": "string"
+        },
+        "firstName": {
+          "description": "The ECG user first bane",
+          "type": "string"
+        },
+        "lastName": {
+          "description": "The ECG user last name",
+          "type": "string"
+        },
+        "organization": {
+          "$ref": "#/definitions/Organization",
+          "description": "The organization details of the ECG user"
+        },
+        "profileId": {
+          "description": "The ECG profile unique identifier",
+          "type": "string"
+        },
+        "profileFirstName": {
+          "description": "The ECG profile first name",
+          "type": "string"
+        },
+        "profileLastName": {
+          "description": "The ECG profile last name",
+          "type": "string"
+        },
+        "ecgId": {
+          "description": "The ECG unique identifier",
+          "type": "string"
+        },
+        "ecgDateTime": {
+          "format": "date-time",
+          "description": "The ECG date/time",
+          "type": "string"
+        },
+        "unviewedInPortal": {
+          "description": "Indicates whether the ECG is yet unviewed in the portal",
+          "type": "boolean"
+        },
+        "interpretationUnviewedInPortal": {
+          "description": "Indicates whether the ECG interpretation is yet unviewed in the portal",
+          "type": "boolean"
+        }
+      }
+    },
+    "Recipient": {
+      "type": "object",
+      "properties": { "email": { "type": "string" } }
+    }
+  },
+  "securityDefinitions": {
+    "jwt": {
+      "type": "apiKey",
+      "description": "JWT Authentication",
+      "name": "Authorization",
+      "in": "header"
+    }
+  }
+}
