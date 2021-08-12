@@ -7,10 +7,10 @@ import AuthLayout from "./layout/auth-layout/AuthLayout";
 import { useAppDispatch, useAppSelector } from "./store/hooks";
 
 function App() {
-  const isAuth = useAppSelector((state) => state.auth.isAuth);
-  console.log(isAuth);
+	const isAuth = useAppSelector((state) => state.auth.isAuth);
+	console.log(isAuth);
 
-  return <>{isAuth ? <MainLayout /> : <AuthLayout />}</>;
+	return <>{isAuth ? <MainLayout /> : <AuthLayout />}</>;
 }
 
 export default App;
