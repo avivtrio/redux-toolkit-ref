@@ -1,3 +1,15 @@
+.button {
+  
+}
+
+
+:global(rtl) .button {
+  
+
+  
+}
+
+
 .App {
   text-align: center;
 }

@@ -14,6 +14,7 @@ import axiosGlobal from "axios";
 //import { UsersApi } from "./api/services/users-api";
 
 import { UsersApiService } from "./apiSAC/UsersService";
+import { LanguageProvider } from "./context/LanguageContext";
 
 const localStorage = {
 	get: (key: string) => {
@@ -106,7 +107,9 @@ ReactDOM.render(
 	<React.StrictMode>
 		<BrowserRouter>
 			<Provider store={store}>
-				<App />
+				<LanguageProvider>
+					<App />
+				</LanguageProvider>
 			</Provider>
 		</BrowserRouter>
 	</React.StrictMode>,
